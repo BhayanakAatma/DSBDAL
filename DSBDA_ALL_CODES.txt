@@ -1,0 +1,285 @@
+PR_1
+
+import pandas as pd
+import numpy as np
+
+df = pd.read_csv("studentDetails.csv")
+print("\n isnull() Function: \n",df.isnull())
+
+gB = df.groupby("Branch")
+print("\n groupby() Function: \n", gB.get_group("Computer"))
+
+df = df.replace(to_replace = np.nan, value = 0.0)
+print("\n replace() Function: \n", df)
+
+
+
+PR_2
+
+import pandas as pd
+import numpy as np
+
+student_details = {
+  "Name" :["Hitesh","Satyam","Salim","Absahrul"],
+  "CGPA" :[np.nan,8.0, np.nan, 9],
+  "Year" :["TE","BE","TE","BE"]
+}
+
+df = pd.DataFrame(student_details)
+
+print("Example of GroupBy Function:\n")
+group_by = df.groupby("Year")
+print(group_by.get_group("TE"))
+
+print("Before Replacement:\n")
+print(df)
+
+df = df.replace(to_replace = [np.nan], value = 9)
+print("After Replacement:\n")
+print(df)
+
+
+PR_3
+
+import pandas as pd
+import numpy as np
+import math
+import csv
+import statistics
+
+with open("wine.csv","r",encoding="latin-1") as f:
+	wines = list(csv.reader(f))
+
+scores = [w[2] for w in wines]
+
+scores.remove(scores[0])
+
+num_scores len(scores)
+
+Scores = [float(x) for x in scores]
+
+sum_of_scores = sum(Scores)
+min_of_scores = min(Scores)
+max_of_scores = max(Scores)
+median_of_scores = statistics.median(Scores)
+standard_deviation = statistics.stdev(Scores)
+
+mean_of_scores = statistics.mean(Scores)
+
+print("Mean: ",mean_of_scores)
+print("Minimum: ",min_of_scores)
+print("Maximum: ",max_of_scores)
+print("Median: ",median_of_scores)
+print("Standard Deviation: ",standard_deviation)	
+
+
+PR_4
+
+
+#load the Boston Housing DataSet
+dataset <- read.csv("Boston.csv")
+
+data <- head(dataset,100)
+# Extract the columns for RM and MEDV
+
+x <- data$rm
+y <- data$medv
+
+# Fit a linear regression model
+fit <- lm(y ~ x)
+
+# save the graph as
+png(file = "linearRegression.pn")
+
+#plot the data and the regression line
+plot(x,y,main="Linear Regression Model for Boston Housing Dataset",
+	xlab = "Average Number of Rooms per Dwelling",
+	ylab = "Median Value of Owner-Occupied Homes",
+	pch  = 16, col = "blue")
+abline(fit,col = "red")
+
+
+PR_5
+
+#load the dataset
+data <- read.csv("Boston.csv")
+
+#filter the size
+#data <- head(dataset,200)
+
+#calculate the median for medv
+medv_median <- median(data$medv)
+
+#Extract the columns
+x <- data$lstat
+y <- ifelse(data$medv >= medv_median,1,0)
+
+#Fit a regression model
+fit <- glm(y ~ x, data = data, family="binomial")
+
+#Save the graph here
+png(file="logisiticRegression.png")
+
+#Create a graph for regression
+plot(x,y,main = "Logistic Regression",
+	 xlab = "Lower Status of Population",
+	 ylab = "Probablity of High Median value",
+	 col  = ifelse(y == 1,"red","blue"))
+abline(fit,col = "red")
+curve(predict(fit,data.frame(x),type = "response"),
+	add = TRUE, col = "black", lwd = 2)
+	
+dev.off()	
+
+
+PR_6
+
+library(e1071)
+
+iris <- read.csv("Iris.csv")
+
+trainIndex <- sample(1:nrow(iris), 0.7*nrow(iris), replace = FALSE)
+train <- iris[trainIndex,]
+test <- iris[-trainIndex,]
+
+# Creating the Naive Bayes model
+model <- naiveBayes(Species ~ ., data = train)
+
+# Making predictions on the test set
+predictions <- predict(model, test)
+print("Predictions")
+print(predictions)
+
+# Creating the confusion matrix
+conf_matrix <- table(test$Species, predictions)
+
+print("Confusion Matrix")
+print(conf_matrix)
+
+# Calculating the evaluation metrics
+TP <- conf_matrix[1,1]
+FP <- conf_matrix[2,1] + conf_matrix[3,1]
+TN <- conf_matrix[2,2] + conf_matrix[3,2] + conf_matrix[1,3] + conf_matrix[2,3] + conf_matrix[3,3]
+FN <- conf_matrix[1,2] + conf_matrix[1,3]
+
+Accuracy <- sum(diag(conf_matrix))/sum(conf_matrix)
+Error_rate <- 1 - Accuracy
+Precision <- TP/(TP+FP)
+Recall <- TP/(TP+FN)
+
+print(c("Accuracy: ",Accuracy))
+print(c("Error_rate: ",Error_rate))
+print(c("Precision: ",Precision))
+print(c("Recall: ",Recall))
+
+PR_7
+
+class WordCount:
+    def countSpecific(self, file_c):
+        count = 0
+        for word in file_c:
+            if word.lower() == "word":
+                count = count + 1
+        print("For sample_data.txt: ")
+        print("Word Count: ", count)
+
+    def countHyperlink(self, file_hyperlink):
+        count = 0
+        hyperlinks = []
+        for word in file_hyperlink:
+            if "http" in word or "www" in word or "https" in word:
+                count = count + 1
+                hyperlinks.append(word)
+        print()
+        print("Total Number of Hyperlinks found is: ", count)
+        for i in range(0, len(hyperlinks)):
+            print(i+1, ") ", hyperlinks[i])
+
+sampleFile = open("C:/Users/HP/OneDrive/Desktop/DSBDA Pracicals/DS All Practicals/sample_data.txt", "r")
+fileContents = sampleFile.read().split()
+wc = WordCount()
+wc.countSpecific(fileContents)
+wc.countHyperlink(fileContents)
+
+
+PR_8
+
+path <- "titanic.csv"
+
+df = read.csv(path)
+
+dt = df["Fare"]
+
+dt <- dt[dt != "Fare"]
+
+data <- c(dt)
+
+png(file = "histogram.png")
+
+hist(data, main = "Titanic", ylim = c(0, 200), col = "green", border = "red")
+
+
+PR_9
+
+path <- "titanic.csv"
+
+df = read.csv(path)
+
+data <- c(df["Age"], df["Sex"])
+
+png(file="box_plot.png")
+
+boxplot(Age ~ Sex, data, xlab = "Sex", ylab = "Age", main = "Titanic", col = "cyan", notch = TRUE)
+
+
+PR_10
+
+(1):BOX_PLOT
+
+
+path <- "iris.csv"
+
+df = read.csv(path)
+
+data <- c(df["sepal.length"], df["petal.width"])
+
+png(file="box_plot_10.png")
+
+boxplot(sepal.length ~ petal.width, data, xlab = "petal.width", ylab = "sepal.length", main = "iris", col = "cyan")
+
+
+(2):HISTOGRAM
+
+path <- "iris.csv"
+
+df = read.csv(path)
+
+dt = df["petal.width"]
+
+dt <- dt[dt != "petal.width"]
+
+data <- c(dt)
+
+png(file = "histogram_iris_10.png")
+
+hist(data, main = "Iris", ylim = c(0, 200), col = "green", border = "red")
+
+
+(3):
+
+path <- "iris.csv"
+
+df <- read.csv(path)
+
+a <- df["petal.length"]
+b <- df["petal.width"]
+
+PL <- a[a != "petal.length"]
+
+PW <- b[b != "petal.width"]
+
+relation <- lm(PW ~ PL)
+
+png(file = "PR_10_D.png")
+
+plot(PW, PL, col = "blue", abline(lm(PL ~ PW)))
